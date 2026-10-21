@@ -1,6 +1,6 @@
 ---
 name: alipay-mini-program-generator
-description: 支付宝小程序（原生框架）工程级开发技能：覆盖架构与目录规范、app.json/分包配置、AXML/ACSS 页面与组件编码、my.* JSAPI 能力调用（网络、存储、授权、支付、路由、UI）、小程序开发者工具的模拟器调试与真机预览，以及微信小程序到支付宝的迁移对照。当用户要新建或修改支付宝小程序项目、编写页面/组件、配置分包或 tabBar、封装请求或调用支付宝能力、把微信小程序迁移/双端对齐到支付宝、排查小程序报错或做真机调试时，必须使用本技能。不适用于微信小程序自身开发，也不适用于 Taro/uni-app 跨端项目（编译型框架，规则不同）。
+description: 支付宝小程序（原生框架）工程级开发 Skill：以 6-Gate 流程覆盖架构与 app.json / 分包配置、mini.project.json format2 与 compileOptions（component2 / TypeScript / Less / treeShaking / resolveAlias / globalObjectMode / transpile）、AXML / ACSS 页面与内置 41 项组件编码、App / Page / Component 三层生命周期与跨层通讯、my.* JSAPI 能力调用（42 项白名单 + Promise 封装 + 敏感能力前置）、minidev 构建发布链路（build / dev / preview / upload / audit / cancel-audit / config 四级配置）、模拟器调试与真机预览、版本递增与资源约束、自定义组件 → npm 发布、微信小程序到支付宝的迁移对照；自带 check-env / check-project / check-jspi-coverage（allowlist ⇄ OpenDocs 漂移对账）/ open-ide 四类确定性脚本与 21/21 回归夹具。当用户要新建或修改支付宝小程序项目、编写页面或组件、配置分包或 tabBar、封装请求或调用支付宝能力、构建 / 上传 / 提审 / 体验版 / 灰度发布、把自定义组件发到 npm、把微信小程序迁移或双端对齐到支付宝、排查小程序报错或做真机调试时，必须使用本技能。不适用于微信小程序自身开发，也不适用于 Taro / uni-app 跨端项目（编译型框架，规则不同）。
 ---
 
 # 支付宝小程序工程级开发
