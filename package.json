@@ -41,6 +41,8 @@
     "url": "https://github.com/antdigital-ai/alipay-mini-program-generator/issues"
   },
   "scripts": {
+    "postinstall": "node scripts/install-skill.mjs",
+    "preuninstall": "node scripts/install-skill.mjs",
     "release-patch": "node release.mjs patch",
     "release-minor": "node release.mjs minor",
     "release-major": "node release.mjs major"

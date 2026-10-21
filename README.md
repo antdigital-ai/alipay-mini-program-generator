@@ -13,16 +13,37 @@
 - **Zero-Fabrication `my.*`** — 44 项白名单与 `references/jsapi.md` §0 单一事实源比对，散写 `my.request` / 硬编码密钥 / 明文 http / 主包超 2MB 自动拦截
 - **Build & Publish Chain** — `mini.project.json` format2 / `compileOptions`、`minidev build` / `dev` / `config`、`upload` / `audit` / `cancel-audit` / `preview`，自定义组件 → npm 发布
 - **Cross-Platform IDE Awakening** — macOS / Windows 自动定位「小程序开发者工具」+ 模拟器；`--qr <appId>` 走真机预览二维码
-- **Allowlist ⇄ OpenDocs Drift Audit** — `check-jspi-coverage.mjs` 实时扫 43 项 `my.*` 看 OpenDocs URL 是否仍能命中
+- **Allowlist ⇄ OpenDocs Drift Audit** — `check-jspi-coverage.mjs` 实时扫 44 项 `my.*` 看 OpenDocs URL 是否仍能命中
 - **WeChat → Alipay Migration** — API / 配置 / 组件 对照表 + 迁移流程 + 高频坑
 
 ## Installation
 
+`npm install` 会触发 `postinstall`，把技能 payload（`SKILL.md` / `references/` / `scripts/` / `.claude-skill.json` / `package.json` 等）覆盖写入 `~/.agents/skills/alipay-mini-program-generator`，Codex 重载技能后即可用：
+
 ```bash
-npm install alipay-mini-program-generator
-# 或从源码克隆（含 `evals/`，纳入到 Codex 技能目录）：
-git clone git@github.com:antdigital-ai/alipay-mini-program-generator.git \
-  $HOME/.agents/skills/alipay-mini-program-generator
+npm install alipay-mini-program-generator        # 技能注册到 ~/.agents/skills/alipay-mini-program-generator
+```
+
+- 默认根目录 `~/.agents/skills`；想换根目录：`ALIPAY_SKILL_ROOT=~/.codex/skills npm install alipay-mini-program-generator`。全局 `npm install -g ...` 同样会注册。
+- 受 CI / `--ignore-scripts` 限制没自动注册？手动补一句：`node node_modules/alipay-mini-program-generator/scripts/install-skill.mjs install`。
+- 维护者要带 `evals/`（npm 包不含）：`git clone git@github.com:antdigital-ai/alipay-mini-program-generator.git ~/.agents/skills/alipay-mini-program-generator`。
+
+## Update
+
+直接升版即可覆盖更新——`postinstall` 会重跑、先清旧目录再写入新 payload（无残留文件），并刷新 `package.json` 版本：
+
+```bash
+npm install alipay-mini-program-generator@latest     # 或 npm update alipay-mini-program-generator
+```
+
+## Uninstall
+
+> npm 10 在「卸载依赖」时不触发 `preuninstall`，所以 `npm uninstall` 只移除 `node_modules` 里的副本、不会自动清掉技能目录。包内仍挂了 `preuninstall`（支持的 npm 版本会自动清）；稳妥用一个复合命令兜底：
+
+```bash
+npm uninstall alipay-mini-program-generator \
+  && rm -rf ~/.agents/skills/alipay-mini-program-generator
+# 若设过 ALIPAY_SKILL_ROOT，把上面的目录换成你那个根下的 alipay-mini-program-generator。
 ```
 
 ## Usage
@@ -52,7 +73,7 @@ SKILL.md                       # Skill 指令正文
 references/
   architecture.md · framework-lifecycle.md · coding-standards.md
   builtin-components.md · jsapi.md · devtools.md · build-and-publish.md · wechat-migration.md
-scripts/                       # check-env / check-project / check-jspi-coverage / open-ide / lib/platform.mjs
+scripts/                       # check-env / check-project / check-jspi-coverage / open-ide / install-skill / lib/platform.mjs
 evals/                         # 仅源码仓库内（npm 包不含）
 ```
 
