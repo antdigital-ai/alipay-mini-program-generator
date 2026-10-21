@@ -1,6 +1,6 @@
 {
   "name": "alipay-mini-program-generator",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Codex / Claude Code Skill — 支付宝小程序（原生框架）工程级开发技能：覆盖架构/编码/JSAPI/调试/迁移全链路，自带确定性检查与 IDE 唤起脚本",
   "main": "",
   "author": "唐小新 <1302947749@qq.com> (https://github.com/hey-tangxiaoxin)",
