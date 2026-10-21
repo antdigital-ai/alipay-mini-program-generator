@@ -58,7 +58,7 @@ Component({
     item: {},           // 支付宝用 props，不是 properties
     onSelect: null,     // 回调通过 props 传入
   },
-  didMount() {},        // 挂载（对应微信 attached）
+  didMount() {},        // 挂载（首次渲染完成，对应微信 ready）
   didUpdate(prevProps) {
     if (prevProps.item.id !== this.props.item.id) this.setData({ liked: false });
   },

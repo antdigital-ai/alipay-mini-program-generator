@@ -26,8 +26,7 @@ function buildPositive(dir) {
       { pagePath: 'pages/index/index', name: '首页' },
       { pagePath: 'pages/order/order', name: '订单' },
     ] },
-    component2: true,
-    lazyCodeLoading: 'requiredComponents',
+    lazyCodeLoading: 'renderedComponents',
   }, null, 2));
   fs.writeFileSync(P('app.js'), "App({ onLaunch() {}, globalData: {} });");
   fs.writeFileSync(P('app.acss'), '.empty{color:#999}');

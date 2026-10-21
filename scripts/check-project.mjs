@@ -32,7 +32,7 @@ const MY_API_ALLOWLIST = new Set([
   'onAppShow', 'offAppShow', 'onAppHide', 'offAppHide',
   'getLaunchOptionsSync', 'getEnterOptionsSync',
   'getMenuButtonBoundingClientRect', 'saveImageToPhotosAlbum',
-  'createWebViewContext',
+  'createWebViewContext', 'createSelectorQuery',
 ]);
 
 function err(msg) { errors.push(msg); }
@@ -304,8 +304,15 @@ if (appJson) {
     }
   }
 
-  if (appJson.component2 !== true) warn('app.json 未开启 component2（自定义组件新生命周期）');
-  if (appJson.lazyCodeLoading !== 'requiredComponents') warn('app.json 未配置 lazyCodeLoading: requiredComponents（按需注入）');
+  // component2 属 mini.project.json compileOptions（不在 app.json）；缺 mini.project.json 时不强告警
+  if (exists('mini.project.json')) {
+    const mp = readJson('mini.project.json') || {};
+    if ((mp.compileOptions || {}).component2 !== true)
+      warn('mini.project.json compileOptions.component2 未开启（自定义组件新生命周期；component2 属 mini.project.json，不在 app.json）');
+  }
+  const lcl = appJson.lazyCodeLoading;
+  if (lcl !== 'renderedComponents' && lcl !== 'requiredComponents')
+    warn('app.json 未配置 lazyCodeLoading（推荐 renderedComponents；requiredComponents 旧值兼容）');
 
   Object.keys(appJson.usingComponents || {}).forEach((k) => appUsingComponents.add(k));
   checkUsingComponents(appJson.usingComponents, 'app.json');

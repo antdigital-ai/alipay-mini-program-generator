@@ -1,6 +1,6 @@
 ---
 name: alipay-mini-program-generator
-description: 支付宝小程序（原生框架）工程级开发 Skill：以 6-Gate 流程覆盖架构与 app.json / 分包配置、mini.project.json format2 与 compileOptions（component2 / TypeScript / Less / treeShaking / resolveAlias / globalObjectMode / transpile）、AXML / ACSS 页面与内置 41 项组件编码、App / Page / Component 三层生命周期与跨层通讯、my.* JSAPI 能力调用（43 项白名单 + Promise 封装 + 敏感能力前置）、minidev 构建发布链路（build / dev / preview / upload / audit / cancel-audit / config 四级配置）、模拟器调试与真机预览、版本递增与资源约束、自定义组件 → npm 发布、微信小程序到支付宝的迁移对照；自带 check-env / check-project / check-jspi-coverage（allowlist ⇄ OpenDocs 漂移对账）/ open-ide 四类确定性脚本与 21/21 回归夹具。当用户要新建或修改支付宝小程序项目、编写页面或组件、配置分包或 tabBar、封装请求或调用支付宝能力、构建 / 上传 / 提审 / 体验版 / 灰度发布、把自定义组件发到 npm、把微信小程序迁移或双端对齐到支付宝、排查小程序报错或做真机调试时，必须使用本技能。不适用于微信小程序自身开发，也不适用于 Taro / uni-app 跨端项目（编译型框架，规则不同）。
+description: 支付宝小程序（原生框架）工程级开发 Skill：以 6-Gate 流程覆盖架构与 app.json / 分包配置、mini.project.json format2 与 compileOptions（component2 / TypeScript / Less / treeShaking / resolveAlias / globalObjectMode / transpile）、AXML / ACSS 页面与内置 41 项组件编码、App / Page / Component 三层生命周期与跨层通讯、my.* JSAPI 能力调用（44 项白名单 + Promise 封装 + 敏感能力前置）、minidev 构建发布链路（build / dev / preview / upload / audit / cancel-audit / config 四级配置）、模拟器调试与真机预览、版本递增与资源约束、自定义组件 → npm 发布、微信小程序到支付宝的迁移对照；自带 check-env / check-project / check-jspi-coverage（allowlist ⇄ OpenDocs 漂移对账）/ open-ide 四类确定性脚本与 21/21 回归夹具。当用户要新建或修改支付宝小程序项目、编写页面或组件、配置分包或 tabBar、封装请求或调用支付宝能力、构建 / 上传 / 提审 / 体验版 / 灰度发布、把自定义组件发到 npm、把微信小程序迁移或双端对齐到支付宝、排查小程序报错或做真机调试时，必须使用本技能。不适用于微信小程序自身开发，也不适用于 Taro / uni-app 跨端项目（编译型框架，规则不同）。
 ---
 
 # 支付宝小程序工程级开发
@@ -38,7 +38,7 @@ description: 支付宝小程序（原生框架）工程级开发 Skill：以 6-G
 
 1. 按 [references/architecture.md](references/architecture.md) 的目录结构组织代码；新建项目从标准骨架起步，存量项目遵循已有结构，不擅自重构。涉及 App / Page / Component 三层生命周期触发顺序（onLaunch 阻塞 / onShow 重发 / 跨页数据共享 等）的形态决策，查 [references/framework-lifecycle.md](references/framework-lifecycle.md)。
 2. 修改 `app.json` 时逐字段核对（支付宝字段名与微信不同：窗口用 `defaultTitle`/`titleBarColor`，tabBar 项用 `name` 而非 `text`）。新页面必须同时登记进 `pages`/`subPackages` 并落齐四件套文件。
-3. 评估包体：主包资源能移则移入分包，静态大图优先走 CDN。核对 `component2` 与 `lazyCodeLoading` 已开启。
+3. 评估包体：主包资源能移则移入分包，静态大图优先走 CDN。核对 `lazyCodeLoading` 已开启（`renderedComponents` 推荐；`requiredComponents` 旧值兼容）；`component2` 在 `mini.project.json` 的 `compileOptions` 开启（不在 app.json）。
 
 ### Gate C — 页面与组件编码
 
@@ -98,12 +98,12 @@ description: 支付宝小程序（原生框架）工程级开发 Skill：以 6-G
 | [references/web-view-embedding.md](references/web-view-embedding.md) | web-view 嵌入 H5 完整指南：H5 域名配置、双向通信契约、脚本注入、H5 内 my.* 子集、onLoad/onError、分享、版本下限、受限排错、真机调试 | 内嵌 H5 类需求（Gate A 判定后）|
 | [references/jsapi.md](references/jsapi.md) | my.* API 分类、Promise 封装模板、错误处理、敏感能力前置、应用启动与应用事件 | Gate D |
 | [references/devtools.md](references/devtools.md) | 开发者工具安装、模拟器/真机调试、白名单、常见报错排查、受限环境唤起实录 | Gate E |
-| [references/build-and-publish.md](references/build-and-publish.md) | mini.project.json format2 / compileOptions（component2 / TS / Less / treeShaking / resolveAlias / globalObjectMode / transpile）、minidev build / dev / config 三命令、产物路径、版本号约定、资源约束、自定义组件→npm 发布 | Gate E（构建 / 发布链路） |
+| [references/build-and-publish.md](references/build-and-publish.md) | mini.project.json format2 / compileOptions（component2 / TS / Less / treeShaking / resolveAlias / globalObjectMode / transpile）、minidev build / dev / config 三命令、产物路径、版本号约定、资源约束、自定义组件→npm 发布（发布 / 真机预览 CLI 见 devtools.md §5/§6） | Gate E（构建 / 发布链路） |
 | [references/wechat-migration.md](references/wechat-migration.md) | 微信→支付宝 API/配置/组件对照表与迁移流程 | 迁移类需求（Gate A 判定） |
 
 ## 2.5 Skill 自身回归
 
-（面向 Skill 维护者；`evals/` 只在源码仓库中提供，`.skill` 安装包不含。）修改本 Skill 的 scripts/ 或 references/ 后，必须运行 `node <skill>/evals/run-evals.mjs`（正例全绿 + 14 类负例逐项拦截 + 6 条 IDE 跨平台定位用例），至全部通过（当前 21/21）后才算改完。改了 `MY_API_ALLOWLIST` 或 §0 白名单块后，再运行 `node <skill>/scripts/check-jspi-coverage.mjs`（漂移对账：对 OpenDocs `api/search?word=my.X` 校验 allowlist 全部 API 仍有专属文档，发现漂移 EXIT≠0）。
+（面向 Skill 维护者；`evals/` 只在源码仓库中提供，npm 安装包不含。）修改本 Skill 的 scripts/ 或 references/ 后，必须运行 `node <skill>/evals/run-evals.mjs`（正例全绿 + 14 类负例逐项拦截 + 6 条 IDE 跨平台定位用例），至全部通过（当前 21/21）后才算改完。改了 `MY_API_ALLOWLIST` 或 §0 白名单块后，再运行 `node <skill>/scripts/check-jspi-coverage.mjs`（漂移对账：对 OpenDocs `api/search?word=my.X` 校验 allowlist 全部 API 仍有专属文档，发现漂移 EXIT≠0）。
 
 ## 3 硬性约束（违反即返工）
 

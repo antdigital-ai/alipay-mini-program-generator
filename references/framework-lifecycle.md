@@ -23,10 +23,11 @@
 | `onShow(options)` | 进入前台（含 onLaunch 之后） | 刷新临时态、扫"被唤醒"场景 |
 | `onHide()` | 进入后台 | 暂停定时器 |
 | `onError(err)` | 抛出未捕获 JS 错误 | 上报到监控 |
-| `onUnhandledRejection({reason,promise})` | Promise reject 未捕获 | 同上 |
-| `onPageNotFound({path,query})` | 首屏 404 | 兜底重定向到首页 |
+| `onShareAppMessage` | 用户触发分享（页面未定义 `onShareAppMessage` 时兜底） | 全局分享默认卡片 |
+| `onUnhandledRejection({reason,promise})` | Promise reject 未捕获（基础库 1.24.1+） | 同上 |
+| `onPageNotFound({path,query})` | 访问到不存在的页面（基础库 2.7.2+） | 兜底重定向到首页 |
 
-> `options = { scene, path, query, referrerInfo, extraData }`，与 `my.getLaunchOptionsSync()` 返回结构一致；`scene`/`query` 都已 decode 好，**不要二次 decode**。
+> `options = { scene, path, query, referrerInfo: { appId, extraData } }`，与 `my.getLaunchOptionsSync()` 返回结构一致；`referrerInfo.extraData` 为来源小程序透传数据；`scene`/`query` 都已 decode 好，**不要二次 decode**。
 
 ### 应用级事件（`app.json.events` 字段，独立于 App() 的 my.* 调用）
 
@@ -115,7 +116,7 @@ OpenDocs：[getApp](https://opendocs.alipay.com/mini/framework/get-app) · [getC
 
 ⚠️ 与 [coding-standards.md §1] 一致：`getApp()` 不是"随便堆数据的袋子"，page 间互改 `globalData.x` 算"禁止挂 getApp() 上随意互改"。
 
-## 6. 本 references 引入的 my.* 新白名单条目（已同步 check-project.mjs）
+## 6. 本 references 引入的 my.* 白名单条目（已同步 check-project.mjs）
 
 | API | OpenDocs（已核实 URL，2026-10） | 用途 |
 |---|---|---|

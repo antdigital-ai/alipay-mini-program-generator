@@ -28,13 +28,13 @@
 | `tabBar.list[].selectedIconPath` | `tabBar.items[].activeIcon` |
 | 页面 `.wxml` / `.wxss` | `.axml` / `.acss` |
 | 组件 `properties` | `props` |
-| 组件生命周期 `attached` / `detached` | `didMount` / `didUnmount` |
+| 组件生命周期 `attached` / `detached` | `didMount` / `didUnmount`；支付宝无独立 `attached`，其初始化写入 `didMount`（=首次渲染完成，对微信 `ready`） |
 | `Component observers` | `didUpdate(prevProps, prevData)` 对比实现 |
 | 组件 `triggerEvent` | `on` 前缀回调 props（AXML 传方法名） |
 | 指令 `wx:if` / `wx:for` | `a:if` / `a:for` |
 | 事件 `bindtap` / `catchtap` | `onTap` / `catchTap` |
 | `app.wxss` | `app.acss` |
-| `project.config.json` | `mini.project.json`（IDE 维护，字段体系不同，勿手改） |
+| `project.config.json` | `mini.project.json`（IDE 生成基线；可改 compileOptions 等可共享字段；勿改本地差异化字段） |
 
 ## 3 迁移流程
 

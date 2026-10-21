@@ -50,7 +50,7 @@
 | `image` | [/component/image](https://opendocs.alipay.com/mini/component/image) |
 | `canvas` | [/component/canvas](https://opendocs.alipay.com/mini/component/canvas) |
 | `video` | [/component/video](https://opendocs.alipay.com/mini/component/video) |
-| `audio` | [/component/audio](https://opendocs.alipay.com/mini/component/audio)（已废弃，建议用 `my.createInnerAudioContext`） |
+| `audio` | [/component/audio](https://opendocs.alipay.com/mini/component/audio)（已废弃；替代音频播 `my.createInnerAudioContext`，该 API 不在当前白名单，使用前按 §0 查证流程同步扩白名单） |
 | `camera` | [/component/camera](https://opendocs.alipay.com/mini/component/camera) |
 | `map` | [/component/map](https://opendocs.alipay.com/mini/component/map) |
 | `lottie` | [/component/lottie](https://opendocs.alipay.com/mini/component/lottie) |
@@ -81,11 +81,9 @@
 
 `autoplay` · `interval` · `circular` · `current` · `indicator-dots` · `indicator-color` · `indicator-active-color` · `onChange`（`{current, source}`，区分 autoplay/用户滑） · `onAnimationEnd`
 
-### `picker`（mode 分类）
+### `picker`
 
-- 单列选择：`range`（String[]/Object[]） · `range-key`（Object[] 取显示字段） · `value`（选中 index） · `onChange`（`e.detail.value`）。**无 mode / 无 multiSelector**；多列用 `picker-view`（见下）或 `my.multiLevelSelect`，日期用 `my.datePicker`。Native 渲染引擎不支持，`my.canIUse('picker')` 兜底。
-- `mode="region"`：`value=["省","市","区"]` · `custom-item`
-- `mode="date"`/`mode="time"`：`start` `end` `value`
+- 仅单列：`title` · `range`（String[]/Object[]） · `range-key`（Object[] 取显示字段） · `value`（选中 index） · `onChange`（`e.detail.value`） · `disabled`。**无 `mode` / 无 `multiSelector` / 无 `region`**：多列用 `picker-view`（见下）或 `my.multiLevelSelect`，日期用 `my.datePicker`。Native 渲染引擎不支持时 `my.canIUse('picker')` 兜底。
 
 ### `picker-view`
 
@@ -93,8 +91,8 @@
 
 ### `canvas`（新代码用 `type="2d"`）
 
-旧：`id` + `my.createCanvasContext(id)` → `...fillText` → `ctx.draw(false, cb)` → `my.canvasToTempFilePath`
-保存到相册：拿到 tempFilePath 后调 `my.saveImageToPhotosAlbum`（见 framework-lifecycle.md §6 新白名单）
+旧：`id` + `my.createCanvasContext(id)` → `...fillText` → `ctx.draw(false, cb)` → `my.canvasToTempFilePath`（**已迁出官方文档、不在 allowlist，新代码禁用**；新取 node 用 `my.createSelectorQuery`，见例子 c）
+保存到相册：拿到 tempFilePath 后调 `my.saveImageToPhotosAlbum`（见 framework-lifecycle.md §6 白名单）
 
 ### `image`
 
@@ -179,7 +177,7 @@ Page({
 
 ```js
 // canvas 2D 新 API；旧 `my.createCanvasContext` / `my.canvasToTempFilePath` 已迁出官方文档，不在 allowlist，禁用（与本文 §6 反模式一致）
-// 取 canvas node：需 `my.createSelectorQuery`，未在白名单内；首次接通前按 §0 查证流程同步扩白名单后再写代码
+// 取 canvas node：`my.createSelectorQuery` 已在白名单（见 jsapi.md §0）；fields({ node: true, size: true }) 拿 Canvas 实例
 const query = my.createSelectorQuery();
 query.select('#poster').fields({ node: true, size: true }).exec((res) => {
   const canvas = res[0].node;
@@ -248,7 +246,7 @@ H5 页面（部署在白名单域名上、HTTPS）：
 
 ## 5. 嵌套 / 原生层级限制
 
-- `canvas` / `video` / `map` / `camera` / `live-player` / `live-pusher` 是**原生组件**，渲染层级是 native 层；想在上面叠加 DOM 元素时必须用 `cover-view` / `cover-image`，否则被原生盖
+- `canvas` / `video` / `map` / `camera` 是**内置原生组件**；`live-player` / `live-pusher` 属直播开放能力、不在本文 §2 内置目录但同为 native 层。想在 native 组件上叠加 DOM 元素时必须用 `cover-view` / `cover-image`，否则被原生盖
 - `form` 内 `button` 必须带 `form-type="submit"` 才会触发 `form` 的 `onSubmit`；普通 button 不触发
 - `web-view` 占满 page；不能在小 `view` 内嵌一部分
 - `text` 不支持 SVG；`rich-text` 仅支持白名单 tag/attr

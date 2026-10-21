@@ -16,7 +16,7 @@ navigateTo  redirectTo  navigateBack  switchTab
 showToast  showLoading  hideLoading  confirm  alert  showActionSheet
 setNavigationBar
 getSystemInfo  getSystemInfoSync  chooseImage  previewImage
-getLocation  scan  canIUse  stopPullDownRefresh  createWebViewContext
+getLocation  scan  canIUse  stopPullDownRefresh  createWebViewContext  createSelectorQuery
 onAppShow  offAppShow  onAppHide  offAppHide
 getLaunchOptionsSync  getEnterOptionsSync
 getMenuButtonBoundingClientRect  saveImageToPhotosAlbum
@@ -151,7 +151,7 @@ const res = await promisify(my.tradePay, { orderStr });
 |---|---|---|---|
 | `my.onAppShow` / `my.offAppShow` | `(cb)` / `()` | [onAppShow](https://opendocs.alipay.com/mini/api/nn7do1) · [offAppShow](https://opendocs.alipay.com/mini/api/tkohmw) | 在 Service 模块/组件中监听应用切回前台；用完必 unlisten |
 | `my.onAppHide` / `my.offAppHide` | `(cb)` / `()` | [onAppHide](https://opendocs.alipay.com/mini/api/tv6qvi) · [offAppHide](https://opendocs.alipay.com/mini/api/dldh0a) | 进入后台 |
-| `my.getLaunchOptionsSync` | `()` → `{ scene, path, query, referrerInfo, extraData }` | [doc](https://opendocs.alipay.com/mini/api/getLaunchOptionsSync) | 仅 `App.onLaunch` 内一次读 |
+| `my.getLaunchOptionsSync` | `()` → `{ scene, path, query, referrerInfo: { appId, extraData } }` | [doc](https://opendocs.alipay.com/mini/api/getLaunchOptionsSync) | 仅 `App.onLaunch` 内一次读 |
 | `my.getEnterOptionsSync` | `()` → 同上 | [doc](https://opendocs.alipay.com/mini/api/029i75) | 任意时刻返回最近一次进入参数 |
 | `my.getMenuButtonBoundingClientRect` | `()` → `{width,height,top,right,bottom,left}` | [doc](https://opendocs.alipay.com/mini/api/menu) | 自定义头部对位胶囊 |
 | `my.saveImageToPhotosAlbum` | `{ filePath }` | [doc](https://opendocs.alipay.com/mini/api/media/image/my.saveImagetophotosalbum) | 写入系统相册；首次调用会自动弹权限授权框（授权后再次调用直接落盘） |

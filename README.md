@@ -10,7 +10,7 @@
 
 - **6-Gate Workflow** — 状态判定 → 架构 → 编码 → `my.*` 能力 → 调试验证 → 交付；每 Gate 产出完整才进下一个，发现上层决策错误自动回退
 - **Three-layer Lifecycle & 41 Built-in Components** — App / Page / Component 三层生命周期 + OpenDocs 全量内置组件速查
-- **Zero-Fabrication `my.*`** — 43 项白名单与 `references/jsapi.md` §0 单一事实源比对，散写 `my.request` / 硬编码密钥 / 明文 http / 主包超 2MB 自动拦截
+- **Zero-Fabrication `my.*`** — 44 项白名单与 `references/jsapi.md` §0 单一事实源比对，散写 `my.request` / 硬编码密钥 / 明文 http / 主包超 2MB 自动拦截
 - **Build & Publish Chain** — `mini.project.json` format2 / `compileOptions`、`minidev build` / `dev` / `config`、`upload` / `audit` / `cancel-audit` / `preview`，自定义组件 → npm 发布
 - **Cross-Platform IDE Awakening** — macOS / Windows 自动定位「小程序开发者工具」+ 模拟器；`--qr <appId>` 走真机预览二维码
 - **Allowlist ⇄ OpenDocs Drift Audit** — `check-jspi-coverage.mjs` 实时扫 43 项 `my.*` 看 OpenDocs URL 是否仍能命中
@@ -40,7 +40,7 @@ git clone git@github.com:antdigital-ai/alipay-mini-program-generator.git \
 | Script | Purpose | Exit Code |
 |---|---|---|
 | `scripts/check-env.mjs` | Node / IDE / minidev / appId 环境探针 | `0` ready / `1` blocked |
-| `scripts/check-project.mjs` | 工程确定性检查（语法 / 43 `my.*` 白名单 / AXML / 结构） | `0` pass / `1` error |
+| `scripts/check-project.mjs` | 工程确定性检查（语法 / 44 `my.*` 白名单 / AXML / 结构） | `0` pass / `1` error |
 | `scripts/check-jspi-coverage.mjs` | allowlist ⇄ OpenDocs 漂移对账 | `0` aligned / `1` drift |
 | `scripts/open-ide.mjs` | 唤起 IDE + 模拟器（`--qr` 走真机预览） | `0` done / `1` unreachable |
 
@@ -69,7 +69,7 @@ evals/                         # 仅源码仓库内（npm 包不含）
 git clone git@github.com:antdigital-ai/alipay-mini-program-generator.git
 cd alipay-mini-program-generator
 node evals/run-evals.mjs                # 期望 21/21
-node scripts/check-jspi-coverage.mjs    # 期望 43/43 无漂移
+node scripts/check-jspi-coverage.mjs    # 期望 44/44 无漂移
 ```
 
 ## 6-Gate Workflow
@@ -78,7 +78,7 @@ A 状态判定 → B 架构配置 → C 编码 → D 能力调用 → E 验证 /
 
 ## Contributing
 
-PR 欢迎修订 `my.*` 白名单或组件时同步：`scripts/check-project.mjs` 的 `MY_API_ALLOWLIST` + `references/jsapi.md` §0 + `references/builtin-components.md`，并跑完 `node evals/run-evals.mjs` 与 `node scripts/check-jspi-coverage.mjs`（保 `43/43` 一致、漂移 = 0）。
+PR 欢迎修订 `my.*` 白名单或组件时同步：`scripts/check-project.mjs` 的 `MY_API_ALLOWLIST` + `references/jsapi.md` §0 + `references/builtin-components.md`，并跑完 `node evals/run-evals.mjs` 与 `node scripts/check-jspi-coverage.mjs`（保 `44/44` 一致、漂移 = 0）。
 
 ## Trademark
 

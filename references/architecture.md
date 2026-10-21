@@ -62,8 +62,10 @@ project/
   "preloadRule": {
     "pages/index/index": { "network": "all", "packages": ["packageA"] }
   },
-  "component2": true,
-  "lazyCodeLoading": "requiredComponents"
+  "permission": {
+    "scope.userLocation": { "desc": "用于显示你的位置" }
+  },
+  "lazyCodeLoading": "renderedComponents"
 }
 ```
 
@@ -75,8 +77,8 @@ project/
 | 导航栏颜色 | `window.titleBarColor` | 运行时可用 `my.setNavigationBar` 改 |
 | tabBar 项 | `items[].pagePath / name / icon / activeIcon` | 2-5 个；`pagePath` 必须先在 `pages` 声明；icon 为 ≤40KB 本地图片 |
 | 分包 | `subPackages` | 单个主包/分包 ≤ 2MB，总包上限以开放平台当期规则为准 |
-| 组件体系 | `component2: true` | 开启后组件走 `didMount` 等新生命周期 |
-| 按需注入 | `lazyCodeLoading: "requiredComponents"` | 只注入页面实际用到的组件代码，改善启动耗时 |
+| 组件体系 | `mini.project.json` 的 `compileOptions.component2`（不在 app.json） | 开启后组件走 `didMount` 等新生命周期 |
+| 按需注入 | `app.json` 的 `lazyCodeLoading`（`renderedComponents` 推荐 / `requiredComponents` 旧值兼容） | 只注入页面实际用到的组件代码，改善启动耗时 |
 
 分包注意：
 1. 分包页面路径 = `root + 分包内相对路径`，跳转 URL 写全：`/packageA/pages/detail/detail?id=1`。
