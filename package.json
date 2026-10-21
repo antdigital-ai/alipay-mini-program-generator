@@ -1,0 +1,33 @@
+{
+  "name": "alipay-mini-program-generator",
+  "version": "1.1.1",
+  "description": "Codex / Claude Code Skill — 支付宝小程序（原生框架）工程级开发技能：覆盖架构/编码/JSAPI/调试/迁移全链路，自带确定性检查与 IDE 唤起脚本",
+  "main": "",
+  "author": "唐小新 <1302947749@qq.com>",
+  "license": "ISC",
+  "keywords": [
+    "codex",
+    "codex-skill",
+    "claude-code",
+    "skill",
+    "ai-assistant",
+    "alipay",
+    "mini-program",
+    "支付宝小程序",
+    "axml",
+    "acss",
+    "jsapi",
+    "minidev"
+  ],
+  "dependencies": {},
+  "files": [
+    "SKILL.md",
+    "references/",
+    "scripts/",
+    ".claude-skill.json"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": "github:antdigital-ai/alipay-mini-program-generator"
+}

@@ -1,0 +1,7 @@
+# 只发布 files 白名单里的资产；这里再加一层防御，避免本地脏物穿帮
+evals/
+.DS_Store
+*.log
+.idea/
+.vscode/
+node_modules/

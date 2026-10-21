@@ -1,0 +1,9 @@
+{
+  "name": "alipay-mini-program-generator",
+  "package": "alipay-mini-program-generator",
+  "files": {
+    "SKILL.md": "SKILL.md",
+    "references": "references/",
+    "scripts": "scripts/"
+  }
+}

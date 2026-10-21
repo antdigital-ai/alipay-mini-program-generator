@@ -1,0 +1,29 @@
+{
+  "skill_name": "alipay-mini-program-generator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我从零新建一个支付宝小程序工程：首页 + 订单列表两个页面，底部 tabBar 两项，订单列表支持分页加载。",
+      "expected_output": "完整工程（四件套齐全、app.json 支付宝字段、utils/request.js 统一出口、services 分层），check-project.mjs 退出码 0，随后自动唤起 IDE 模拟器并报告三态结果",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "把订单页的「立即下单」按钮改成：先弹确认框，确认后调用下单接口 POST /order/create，成功后 toast 并刷新列表。",
+      "expected_output": "my.confirm Promise 化、请求走 services 层、fail 兜底；页面无散写 my.request、无白名单外 API",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "这个支付宝小程序页面在开发者工具模拟器里一切正常，但真机预览时 my.request 直接 fail，帮我排查原因并给出解决办法。",
+      "expected_output": "首选根因命中域名白名单（模拟器不校验/真机校验差异），覆盖 https 约束、重新预览生效、证书与基础库次级原因",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "把我们的微信小程序迁移到支付宝：wx.request 都改成对应的，配置文件也迁一下。",
+      "expected_output": "按 references/wechat-migration.md 对照表逐项映射（wx.request→my.request、navigationBarTitleText→defaultTitle、text→name 等），改完跑 check-project.mjs 拦截类推残留",
+      "files": []
+    }
+  ]
+}
