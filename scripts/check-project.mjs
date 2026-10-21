@@ -32,6 +32,7 @@ const MY_API_ALLOWLIST = new Set([
   'onAppShow', 'offAppShow', 'onAppHide', 'offAppHide',
   'getLaunchOptionsSync', 'getEnterOptionsSync',
   'getMenuButtonBoundingClientRect', 'saveImageToPhotosAlbum',
+  'createWebViewContext',
 ]);
 
 function err(msg) { errors.push(msg); }

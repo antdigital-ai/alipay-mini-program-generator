@@ -1,6 +1,6 @@
 ---
 name: alipay-mini-program-generator
-description: 支付宝小程序（原生框架）工程级开发 Skill：以 6-Gate 流程覆盖架构与 app.json / 分包配置、mini.project.json format2 与 compileOptions（component2 / TypeScript / Less / treeShaking / resolveAlias / globalObjectMode / transpile）、AXML / ACSS 页面与内置 41 项组件编码、App / Page / Component 三层生命周期与跨层通讯、my.* JSAPI 能力调用（42 项白名单 + Promise 封装 + 敏感能力前置）、minidev 构建发布链路（build / dev / preview / upload / audit / cancel-audit / config 四级配置）、模拟器调试与真机预览、版本递增与资源约束、自定义组件 → npm 发布、微信小程序到支付宝的迁移对照；自带 check-env / check-project / check-jspi-coverage（allowlist ⇄ OpenDocs 漂移对账）/ open-ide 四类确定性脚本与 21/21 回归夹具。当用户要新建或修改支付宝小程序项目、编写页面或组件、配置分包或 tabBar、封装请求或调用支付宝能力、构建 / 上传 / 提审 / 体验版 / 灰度发布、把自定义组件发到 npm、把微信小程序迁移或双端对齐到支付宝、排查小程序报错或做真机调试时，必须使用本技能。不适用于微信小程序自身开发，也不适用于 Taro / uni-app 跨端项目（编译型框架，规则不同）。
+description: 支付宝小程序（原生框架）工程级开发 Skill：以 6-Gate 流程覆盖架构与 app.json / 分包配置、mini.project.json format2 与 compileOptions（component2 / TypeScript / Less / treeShaking / resolveAlias / globalObjectMode / transpile）、AXML / ACSS 页面与内置 41 项组件编码、App / Page / Component 三层生命周期与跨层通讯、my.* JSAPI 能力调用（43 项白名单 + Promise 封装 + 敏感能力前置）、minidev 构建发布链路（build / dev / preview / upload / audit / cancel-audit / config 四级配置）、模拟器调试与真机预览、版本递增与资源约束、自定义组件 → npm 发布、微信小程序到支付宝的迁移对照；自带 check-env / check-project / check-jspi-coverage（allowlist ⇄ OpenDocs 漂移对账）/ open-ide 四类确定性脚本与 21/21 回归夹具。当用户要新建或修改支付宝小程序项目、编写页面或组件、配置分包或 tabBar、封装请求或调用支付宝能力、构建 / 上传 / 提审 / 体验版 / 灰度发布、把自定义组件发到 npm、把微信小程序迁移或双端对齐到支付宝、排查小程序报错或做真机调试时，必须使用本技能。不适用于微信小程序自身开发，也不适用于 Taro / uni-app 跨端项目（编译型框架，规则不同）。
 ---
 
 # 支付宝小程序工程级开发
@@ -95,6 +95,7 @@ description: 支付宝小程序（原生框架）工程级开发 Skill：以 6-G
 | [references/framework-lifecycle.md](references/framework-lifecycle.md) | App/Page/Component 三层生命周期触发序列、应用级事件、跨层通讯（无 Signals 的原生数据共享方案）、启动场景分发例子 | Gate B（生命周期决策）/ Gate E（onShow 类避坑与跨层共享） |
 | [references/coding-standards.md](references/coding-standards.md) | Page/Component 写法、AXML 指令、ACSS 规范、数据流 | Gate C |
 | [references/builtin-components.md](references/builtin-components.md) | 内置组件目录（41 项 + OpenDocs 链接）、props/events 速查、canvas/scroll-view/picker-view/web-view 典型例子、原生层级限制 | Gate C |
+| [references/web-view-embedding.md](references/web-view-embedding.md) | web-view 嵌入 H5 完整指南：H5 域名配置、双向通信契约、脚本注入、H5 内 my.* 子集、onLoad/onError、分享、版本下限、受限排错、真机调试 | 内嵌 H5 类需求（Gate A 判定后）|
 | [references/jsapi.md](references/jsapi.md) | my.* API 分类、Promise 封装模板、错误处理、敏感能力前置、应用启动与应用事件 | Gate D |
 | [references/devtools.md](references/devtools.md) | 开发者工具安装、模拟器/真机调试、白名单、常见报错排查、受限环境唤起实录 | Gate E |
 | [references/build-and-publish.md](references/build-and-publish.md) | mini.project.json format2 / compileOptions（component2 / TS / Less / treeShaking / resolveAlias / globalObjectMode / transpile）、minidev build / dev / config 三命令、产物路径、版本号约定、资源约束、自定义组件→npm 发布 | Gate E（构建 / 发布链路） |

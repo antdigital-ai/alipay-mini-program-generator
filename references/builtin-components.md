@@ -20,7 +20,7 @@
 |---|---|---|
 | `view` | [/component/view](https://opendocs.alipay.com/mini/component/view) | 块容器（默认行流） |
 | `text` | [/component/text](https://opendocs.alipay.com/mini/component/text) | 行内文字 |
-| `scroll-view` | [/component/scroll-view](https://opendocs.alipay.com/mini/component/scroll-view) | 可滚容器（横/竖，bindscroll） |
+| `scroll-view` | [/component/scroll-view](https://opendocs.alipay.com/mini/component/scroll-view) | 可滚容器（横/竖，onScroll） |
 | `swiper` / `swiper-item` | [/component/swiper](https://opendocs.alipay.com/mini/component/swiper) | 轮播 |
 | `movable-area` / `movable-view` | [/component/movable-area](https://opendocs.alipay.com/mini/component/movable-area) · [/component/movable-view](https://opendocs.alipay.com/mini/component/movable-view) | 拖拽 / 双指缩放 |
 | `cover-view` / `cover-image` | [/component/cover-view](https://opendocs.alipay.com/mini/component/cover-view) · [/component/cover-image](https://opendocs.alipay.com/mini/component/cover-image) | 覆盖原生组件（map/video/canvas 等）上方 |
@@ -75,22 +75,21 @@
 
 ### `scroll-view`
 
-`scroll-y` / `scroll-x`（bool） · `scroll-into-view`（子孙元素 id，自动滚到） · `upper-threshold` / `lower-threshold` · `bindscroll`（`{scrollTop, scrollHeight, deltaX, deltaY}`） · `bindscrolltolower`（典型：拉下一页）
+`scroll-y` / `scroll-x`（bool） · `scroll-into-view`（子孙元素 id，自动滚到） · `upper-threshold` / `lower-threshold` · `onScroll`（`{scrollTop, scrollHeight, deltaX, deltaY}`） · `onScrollToLower`（典型：拉下一页）
 
 ### `swiper` + `swiper-item`
 
-`autoplay` · `interval` · `circular` · `current` · `indicator-dots` · `indicator-color` · `indicator-active-color` · `bindchange`（`{current, source}`，区分 autoplay/用户滑） · `bindanimationfinish`
+`autoplay` · `interval` · `circular` · `current` · `indicator-dots` · `indicator-color` · `indicator-active-color` · `onChange`（`{current, source}`，区分 autoplay/用户滑） · `onAnimationEnd`
 
 ### `picker`（mode 分类）
 
-- `mode="selector"`：`range` `range-key` `value` `bindchange`
-- `mode="multiSelector"`：`range` 二维数组 + `bindcolumnchange` 联动
+- 单列选择：`range`（String[]/Object[]） · `range-key`（Object[] 取显示字段） · `value`（选中 index） · `onChange`（`e.detail.value`）。**无 mode / 无 multiSelector**；多列用 `picker-view`（见下）或 `my.multiLevelSelect`，日期用 `my.datePicker`。Native 渲染引擎不支持，`my.canIUse('picker')` 兜底。
 - `mode="region"`：`value=["省","市","区"]` · `custom-item`
 - `mode="date"`/`mode="time"`：`start` `end` `value`
 
 ### `picker-view`
 
-`indicator-style`/`mask-style` · `value` 是每列 index 数组 · `bindchange` `bindpickstart` `bindpickend`
+`indicator-style`/`mask-style` · `value` 是每列 index 数组 · `onChange` `onPickStart` `onPickEnd`
 
 ### `canvas`（新代码用 `type="2d"`）
 
@@ -99,26 +98,26 @@
 
 ### `image`
 
-`mode`：`scaleToFill`/`aspectFit`/`aspectFill`/`widthFix`/... · `lazy-load` · `binderror`/`bindload` · 事件 `onTap`/`catchTap`
+`mode`：`scaleToFill`/`aspectFit`/`aspectFill`/`widthFix`/... · `lazy-load` · `onError`/`onLoad` · 事件 `onTap`/`catchTap`
 
 ### `map`
 
-`longitude`/`latitude` · `scale`（默认 16） · `markers`/`polyline`/`polygon`/`include-points`（自动缩放包含点） · 事件 `bindmarkertap`/`bindcallouttap`/`bindregionchange`/`bindcontroltap` · 上面要覆盖 DOM 用 `cover-view` / `cover-image`
+`longitude`/`latitude` · `scale`（默认 16） · `markers`/`polyline`/`polygon`/`include-points`（自动缩放包含点） · 事件 `onMarkerTap`/`onCalloutTap`/`onRegionChange`/`onControlTap` · 上面要覆盖 DOM 用 `cover-view` / `cover-image`
 
 ### `web-view`
 
-`src` 必须先在开放平台"内嵌网页白名单"配置；H5 侧 `my.postMessage(...)` → 小程序 `bindmessage` 收（只在 navigateBack/分享/复制链接等特定时机）；反向用 query 字符串或 H5 SDK API 实现
+`src` 必须先在开放平台「开发设置 > H5 域名配置」白名单内（≤20、仅自有 HTTPS 域名、含 iframe/重定向主文档域名、阿里域名不支持、变更需发版）；仅企业小程序、不支持插件、每页一个、占满 page、不支持多 web-view 间通讯、不支持横屏全屏。H5 需引 `https://appx/web-view.min.js`：H5→小程序用 `my.postMessage({...})`（小程序 `onMessage` 收 `e.detail={data}`，**每次调用实时触发、无时机限制**）；小程序→H5 用 `my.createWebViewContext('id')` + `ctx.postMessage`（H5 `my.onMessage` 收）。详见例子 d、完整嵌入步骤见 [references/web-view-embedding.md]。
 
 ### `video`
 
-`src`/`poster`/`controls`/`autoplay`/`loop`/`muted` · 事件 `bindplay`/`bindpause`/`bindended`/`bindtimeupdate`/`bindfullscreenchange`/`binderror`
+`src`/`poster`/`controls`/`autoplay`/`loop`/`muted` · 事件 `onPlay`/`onPause`/`onEnded`/`onTimeUpdate`/`onFullScreenChange`/`onError`
 
 ## 4. 典型业务例子
 
 ### 例子 a：`scroll-view` 无限滚动 + 下拉刷新
 
 ```xml
-<scroll-view scroll-y="{{true}}" lower-threshold="80" bindscrolltolower="onReachLower" style="height:100vh;">
+<scroll-view scroll-y="{{true}}" lower-threshold="80" onScrollToLower="onReachLower" style="height:100vh;">
   <view a:for="{{list}}" a:for-item="row" key="row.id">
     <text>{{row.title}}</text>
   </view>
@@ -149,7 +148,7 @@ Page({
 ### 例子 b：`picker-view` 自定义省市两列联动
 
 ```xml
-<picker-view value="{{value}}" bindchange="onChange" indicator-style="height: 50px;" style="height: 240px;">
+<picker-view value="{{value}}" onChange="onChange" indicator-style="height: 50px;" style="height: 240px;">
   <picker-view-column>
     <view a:for="{{provinceList}}" key="{{index}}">{{item.name}}</view>
   </picker-view-column>
@@ -202,33 +201,55 @@ query.select('#poster').fields({ node: true, size: true }).exec((res) => {
 
 > Canvas 2D 总览见 [OpenDocs/Canvas 概览](https://opendocs.alipay.com/mini/01vzqv)；`Canvas.toTempFilePath` 见 [/mini/api/toTempFilePath](https://opendocs.alipay.com/mini/api/toTempFilePath)；canvas 组件 props 见 [/component/canvas](https://opendocs.alipay.com/mini/component/canvas)。
 
-### 例子 d：`web-view` 嵌入 H5 + postMessage 双向通讯
+### 例子 d：`web-view` 嵌入 H5 + `onMessage` 双向通讯
 
+> 权威：[web-view H5 页面承载](https://opendocs.alipay.com/mini/component/web-view) · [my.createWebViewContext](https://opendocs.alipay.com/mini/api/webview-context) · [支付宝小程序内嵌 H5 页面](https://opendocs.alipay.com/mini/tool/h5)。H5 侧需引 `https://appx/web-view.min.js`（仅支付宝客户端内可访问；UA 含 `AliApp` 再引，避免非支付宝环境 404）。
+
+小程序 AXML（事件属性是 `onMessage`，**不是** 微信的 `bindmessage`）：
 ```xml
-<web-view src="{{embedUrl}}" bindmessage="onH5Message"></web-view>
+<view class="page">
+  <web-view id="web-view-1" src="{{embedUrl}}" onMessage="onH5Message"></web-view>
+</view>
 ```
 
-H5 侧（需引入小程序脚本）：
-```js
-my.postMessage({ action: 'PAY', payload: { orderId: '123' } });
-```
-
-小程序 page 侧：
+小程序 page（`onLoad` 建 context；`onMessage` 收 H5→小程序；`toH5` 演示小程序→H5）：
 ```js
 Page({
-  onH5Message(e) {
-    const { action, payload } = e.detail;
-    if (action === 'PAY') { /* 走 my.tradePay */ }
-  }
+  data: { embedUrl: 'https://shop.example.com/promo' }, // 域名须在「开发设置 > H5 域名配置」白名单（根目录放校验文件），变更需发版
+  onLoad() {
+    this.webViewContext = my.createWebViewContext('web-view-1'); // 基础库 1.8.0+ / 客户端 10.10+；可 my.canIUse('createWebViewContext') 兜底
+  },
+  onH5Message(e) {                       // e.detail = { data }（OpenDocs 约定）
+    const body = (e.detail && e.detail.data) || e.detail || {};
+    const { action, payload } = body;
+    if (action === 'PAY') { /* 服务端出 orderStr 后走 my.tradePay：仅此一种支付通道 */ }
+    if (action === 'READY') this.toH5({ token: 'xxx' });
+  },
+  toH5(msg) { this.webViewContext.postMessage(msg); }   // 小程序 → H5
 });
 ```
 
-> 双向细节以 [/component/web-view](https://opendocs.alipay.com/mini/component/web-view) 为准；postMessage 受时机约束（navigateBack/复制链接/分享 时才推送）。
+H5 页面（部署在白名单域名上、HTTPS）：
+```html
+<script type='text/javascript'>if (navigator.userAgent.indexOf('AliApp') > -1) {
+  document.writeln('<script src="https://appx/web-view.min.js"' + '>' + '<' + '/script>');
+}</script>
+<script>
+  // H5→小程序：每次调用都实时触发小程序 onMessage（无时机限制）
+  my.postMessage({ action: 'READY' });
+  // 小程序→H5：在 my.onMessage 里收
+  my.onMessage = function (e) { console.log('from-mp', e); };
+  // H5 内可直接调受控 my.* 子集：navigateTo/navigateBack/switchTab/redirectTo/reLaunch、chooseImage/previewImage、getLocation/openLocation、alert/showLoading/hideLoading、getNetworkType、startShare、tradePay（支付只能走 my.tradePay，禁 H5 原生支付）、getEnv
+  my.getEnv(function (res) { console.log(res.miniprogram); }); // true
+</script>
+```
+
+> 反模式：① 事件属性写成微信的 `bindmessage`（支付宝用 `onMessage`）② 误认为 `postMessage` 仅在 navigateBack/分享/复制链接时推送——**那是微信规则，支付宝每次调用实时触发** ③ `src` 用非白名单 / `http` / `alipays://` 域名：真机一定加载受限（错误码多为 `040001006`）④ 期望把 web-view 嵌进小 `view` 内（必占满 page）⑤ 在个人小程序 / 插件内使用（不支持）⑥ 期望多页面或多 web-view 间通讯 / 横屏全屏（不支持）⑦ 在 H5 里调白名单外 `my.*` 或走 H5 原生支付（支付只能 `my.tradePay`）⑧ 多端 App 想用 `window.AlipayJSBridge`（那是独立网页场景，web-view 嵌入用 `my.*`）。
 
 ## 5. 嵌套 / 原生层级限制
 
 - `canvas` / `video` / `map` / `camera` / `live-player` / `live-pusher` 是**原生组件**，渲染层级是 native 层；想在上面叠加 DOM 元素时必须用 `cover-view` / `cover-image`，否则被原生盖
-- `form` 内 `button` 必须带 `form-type="submit"` 才会触发 `form` 的 `bindsubmit`；普通 button 不触发
+- `form` 内 `button` 必须带 `form-type="submit"` 才会触发 `form` 的 `onSubmit`；普通 button 不触发
 - `web-view` 占满 page；不能在小 `view` 内嵌一部分
 - `text` 不支持 SVG；`rich-text` 仅支持白名单 tag/attr
 

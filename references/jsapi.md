@@ -16,7 +16,7 @@ navigateTo  redirectTo  navigateBack  switchTab
 showToast  showLoading  hideLoading  confirm  alert  showActionSheet
 setNavigationBar
 getSystemInfo  getSystemInfoSync  chooseImage  previewImage
-getLocation  scan  canIUse  stopPullDownRefresh
+getLocation  scan  canIUse  stopPullDownRefresh  createWebViewContext
 onAppShow  offAppShow  onAppHide  offAppHide
 getLaunchOptionsSync  getEnterOptionsSync
 getMenuButtonBoundingClientRect  saveImageToPhotosAlbum
@@ -132,6 +132,13 @@ const res = await promisify(my.tradePay, { orderStr });
 
 ### 设备与媒体
 常用：`my.getSystemInfoSync`（窗口宽做 rpx 换算兜底）、`my.chooseImage`、`my.previewImage`、`my.getLocation`（需 `scope.userLocation` 授权且平台侧声明）、`my.scan`（扫码）。
+
+### WebView 容器通信（web-view 嵌入 H5）
+| API | 入参 / 返回 | OpenDocs | 说明 |
+|---|---|---|---|
+| `my.createWebViewContext` | `(webviewId: string)` → `WebViewContext` | [doc](https://opendocs.alipay.com/mini/api/webview-context) | Page `onLoad` 调，`id` 对应 AXML `<web-view id="...">`；返回 context 的 `.postMessage(data)` 用于「小程序 → H5」，H5 侧用 `my.onMessage` 收。Native 渲染引擎不支持，先 `my.canIUse('createWebViewContext')` 兜底。完整双向通信用法见 [references/builtin-components.md] 例子 d |
+
+> web-view 嵌入 H5 的完整约束（H5 侧需引 `https://appx/web-view.min.js`、H5 内可用 `my.*` 受控子集、H5 域名白名单 / HTTPS / 真机受限）见 [references/builtin-components.md]。
 
 ### 能力探测
 调用不确定的新 API 前先用 `my.canIUse('my.xxx')` 判断，低版本客户端走降级路径，不要裸调。
