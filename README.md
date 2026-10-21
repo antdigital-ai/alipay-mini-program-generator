@@ -25,7 +25,7 @@ npm install alipay-mini-program-generator        # 技能注册到 ~/.agents/ski
 ```
 
 - 默认根目录 `~/.agents/skills`；想换根目录：`ALIPAY_SKILL_ROOT=~/.codex/skills npm install alipay-mini-program-generator`。全局 `npm install -g ...` 同样会注册。
-- 受 CI / `--ignore-scripts` 限制没自动注册？手动补一句：`node node_modules/alipay-mini-program-generator/scripts/install-skill.mjs install`。
+- 受 CI / `--ignore-scripts` 限制没自动注册？手动补一句：`npx alipay-mini-program-generator install`（等价 postinstall）。
 - 维护者要带 `evals/`（npm 包不含）：`git clone git@github.com:antdigital-ai/alipay-mini-program-generator.git ~/.agents/skills/alipay-mini-program-generator`。
 
 ## Update
@@ -38,13 +38,14 @@ npm install alipay-mini-program-generator@latest     # 或 npm update alipay-min
 
 ## Uninstall
 
-> npm 10 在「卸载依赖」时不触发 `preuninstall`，所以 `npm uninstall` 只移除 `node_modules` 里的副本、不会自动清掉技能目录。包内仍挂了 `preuninstall`（支持的 npm 版本会自动清）；稳妥用一个复合命令兜底：
+> npm 10 在「卸载依赖」时不触发 `preuninstall`，所以 `npm uninstall` 只移除 `node_modules` 副本、不动技能目录。本包带 `alipay-mini-program-generator` 命令，用它先清掉技能目录再卸载包（一行）：
 
 ```bash
-npm uninstall alipay-mini-program-generator \
-  && rm -rf ~/.agents/skills/alipay-mini-program-generator
-# 若设过 ALIPAY_SKILL_ROOT，把上面的目录换成你那个根下的 alipay-mini-program-generator。
+npx alipay-mini-program-generator remove && npm uninstall alipay-mini-program-generator
 ```
+
+- `remove` 默认清 `~/.agents/skills/alipay-mini-program-generator`；设过 `ALIPAY_SKILL_ROOT` 则清你那个根下的同名目录。包内仍挂 `preuninstall`（支持的 npm 版本会自动清）兜底。
+- 不想用 npx：手动删掉该目录再 `npm uninstall`。
 
 ## Usage
 
@@ -73,7 +74,7 @@ SKILL.md                       # Skill 指令正文
 references/
   architecture.md · framework-lifecycle.md · coding-standards.md
   builtin-components.md · jsapi.md · devtools.md · build-and-publish.md · wechat-migration.md
-scripts/                       # check-env / check-project / check-jspi-coverage / open-ide / install-skill / lib/platform.mjs
+scripts/                       # check-env / check-project / check-jspi-coverage / open-ide / install-skill / cli / lib/platform.mjs · lib/skill-registrar.mjs
 evals/                         # 仅源码仓库内（npm 包不含）
 ```
 
