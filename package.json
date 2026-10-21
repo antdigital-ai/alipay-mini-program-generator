@@ -29,12 +29,20 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "repository": "github:antdigital-ai/alipay-mini-program-generator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antdigital-ai/alipay-mini-program-generator.git"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
   "homepage": "https://github.com/antdigital-ai/alipay-mini-program-generator",
   "bugs": {
     "url": "https://github.com/antdigital-ai/alipay-mini-program-generator/issues"
+  },
+  "scripts": {
+    "release-patch": "node release.mjs patch",
+    "release-minor": "node release.mjs minor",
+    "release-major": "node release.mjs major"
   }
 }
