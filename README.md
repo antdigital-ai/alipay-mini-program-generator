@@ -38,18 +38,21 @@ npm install alipay-mini-program-generator@latest     # 或 npm update alipay-min
 
 ## Uninstall
 
-> npm 10 在「卸载依赖」时不触发 `preuninstall`，所以 `npm uninstall` 只移除 `node_modules` 副本、不动技能目录。本包带 `alipay-mini-program-generator` 命令，用它先清掉技能目录再卸载包（一行）：
+一行卸载、无残留（先清技能目录，再自动卸载 npm 包）：
 
 ```bash
-npx alipay-mini-program-generator remove && npm uninstall alipay-mini-program-generator
+npx alipay-mini-program-generator uninstall
 ```
 
-- `remove` 默认清 `~/.agents/skills/alipay-mini-program-generator`；设过 `ALIPAY_SKILL_ROOT` 则清你那个根下的同名目录。包内仍挂 `preuninstall`（支持的 npm 版本会自动清）兜底。
-- 不想用 npx：手动删掉该目录再 `npm uninstall`。
+> 为什么不能只用 `npm uninstall`？npm 10 在「卸载依赖」时**不会触发**依赖自身的 `preuninstall`（registry 安装与本地 tarball 均已实测），所以 `npm uninstall alipay-mini-program-generator` 只会移除 `node_modules` 副本、留下 `~/.agents/skills` 下的技能目录。本命令兜底：清掉 `~/.agents/skills/alipay-mini-program-generator` 后再自动 `npm uninstall` 自身。
+
+- 默认清 `~/.agents/skills/alipay-mini-program-generator`；设过 `ALIPAY_SKILL_ROOT` 则清你那个根下的同名目录；全局安装会自动带 `-g` 卸载。
+- 只想清技能副本、保留 npm 包（开发/恢复）：`npx alipay-mini-program-generator uninstall --skills-only`（或环境变量 `ALIPAY_NO_SELF_UNINSTALL=1`）。
+- 已经用过 `npm uninstall`、技能目录变成孤儿残留？重新 `npm install` 本包后再跑一次上面的 `uninstall`，或直接删掉 `~/.agents/skills/alipay-mini-program-generator`。
 
 ## Usage
 
-无需手动调用 — 在 Codex / Claude Code 里用自然语言提需求即可：
+无需手动调用 — 在 Codex / Claude Code / AiWork 里用自然语言提需求即可：
 
 ```text
 - 帮我新建一个支付宝小程序 Todos 页面

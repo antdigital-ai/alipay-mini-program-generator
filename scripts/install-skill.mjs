@@ -3,7 +3,7 @@
  * install-skill.mjs — npm 生命周期入口（postinstall/preuninstall）
  * 实际逻辑在 scripts/lib/skill-registrar.mjs（与 bin scripts/cli.mjs 共用）。
  *   postinstall  → 注册技能（覆盖写入技能根目录）
- *   preuninstall → 移除技能目录（兜底；npm 10 卸载依赖不触发，见 README Uninstall）
+ *   preuninstall → 移除技能目录（兜底；npm 10 卸载依赖不触发——registry 与本地 tarball 均实测；一键卸载请用 `npx alipay-mini-program-generator uninstall`，见 README Uninstall）
  *
  * 手动调用：node scripts/install-skill.mjs install|uninstall
  */
